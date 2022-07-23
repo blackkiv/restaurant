@@ -3,12 +3,11 @@ use std::ops::Range;
 
 use rand::{Rng, thread_rng};
 use rand::seq::SliceRandom;
-use serde::Deserialize;
 
 use crate::config::Config;
 use crate::ingredients;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug)]
 pub struct Ingredient {
     name: String,
     amount: u16,
