@@ -9,7 +9,6 @@ mod generator;
 
 fn main() {
     let config = Config::load();
-    // Generator::init(&config).unwrap();
     if let Ok(generator) = Generator::init(&config) {
         let recipe = generator.generate_recipe("blackkiv");
         println!("{:#?}", recipe)
