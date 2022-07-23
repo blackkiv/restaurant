@@ -5,8 +5,8 @@ use config::Config;
 use generator::Generator;
 
 mod config;
-mod ingredients;
 mod generator;
+mod ingredients;
 
 fn main() {
     let config = Config::load();

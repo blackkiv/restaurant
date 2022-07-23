@@ -22,7 +22,8 @@ pub struct AmountRange {
 
 impl Config {
     pub fn load() -> Config {
-        let config_source = fs::read_to_string("resources/config.toml").expect("onfig file not found");
+        let config_source =
+            fs::read_to_string("resources/config.toml").expect("onfig file not found");
         let config = toml::from_str(&config_source).expect("wrong config file format");
         dbg!(config)
     }
