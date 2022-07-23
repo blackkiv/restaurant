@@ -4,18 +4,14 @@ use std::ops::Range;
 use rand::{Rng, thread_rng};
 use rand::seq::SliceRandom;
 
+use common::recipe::Ingredient;
+
 use crate::config::Config;
 use crate::ingredients;
 
-#[derive(Debug)]
-pub struct Ingredient {
-    name: String,
-    amount: u16,
-}
-
 pub struct Generator {
     ingredients: Vec<String>,
-    range: Range<u16>,
+    range: Range<u8>,
 }
 
 impl Generator {
@@ -35,7 +31,7 @@ impl Generator {
 
         Ingredient {
             name: ingredient.to_string(),
-            amount: thread_rng().gen_range::<u16, Range<u16>>(range.clone()),
+            amount: thread_rng().gen_range::<u8, Range<u8>>(range.clone()),
         }
     }
 }

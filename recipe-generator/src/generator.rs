@@ -2,24 +2,26 @@ use std::error::Error;
 
 use sha2::{Digest, Sha256};
 
+use common::recipe::{Ingredient, Recipe};
+
 use crate::{assets, Config};
 use crate::assets::Assets;
 
-#[derive(Debug)]
-pub struct Recipe {
-    hash: String,
-    prefix: String,
-    adjective1: String,
-    adjective2: String,
-    icon: u8,
-    ingredients: Vec<Ingredient>,
-}
-
-#[derive(Debug)]
-pub struct Ingredient {
-    name: String,
-    amount: u8,
-}
+// #[derive(Debug)]
+// pub struct Recipe {
+//     hash: String,
+//     prefix: String,
+//     adjective1: String,
+//     adjective2: String,
+//     icon: u8,
+//     ingredients: Vec<Ingredient>,
+// }
+//
+// #[derive(Debug)]
+// pub struct Ingredient {
+//     name: String,
+//     amount: u8,
+// }
 
 #[derive(Debug)]
 pub struct Generator {

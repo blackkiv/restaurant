@@ -16,8 +16,8 @@ pub struct GenerationConfig {
 
 #[derive(Deserialize, Debug)]
 pub struct AmountRange {
-    pub start: u16,
-    pub end: u16,
+    pub start: u8,
+    pub end: u8,
 }
 
 impl Config {
