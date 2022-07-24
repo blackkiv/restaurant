@@ -6,6 +6,13 @@ use serde::Deserialize;
 pub struct Config {
     #[serde(default = "default_assets")]
     pub assets_source_path: String,
+    pub kafka: Kafka,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Kafka {
+    pub host: String,
+    pub generate_recipe_topic: String,
 }
 
 impl Config {
