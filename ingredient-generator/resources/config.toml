@@ -1,3 +1,7 @@
+[kafka]
+host = "localhost:29092"
+generate_ingredient_topic = "generate_ingredient"
+
 [generation_config.amount_range]
 start = 1
 end = 10
