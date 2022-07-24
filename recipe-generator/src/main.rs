@@ -1,7 +1,5 @@
 use std::error::Error;
 
-use serde_json::Value;
-
 use common::{KafkaConsumer, KafkaProducer};
 use common::recipe::Recipe;
 use config::Config;
