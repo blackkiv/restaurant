@@ -1,4 +1,6 @@
 use std::error::Error;
+use std::future::Future;
+use std::process::Output;
 
 use kafka::consumer::{Consumer, FetchOffset, GroupOffsetStorage};
 
@@ -21,7 +23,7 @@ impl KafkaConsumer {
 }
 
 impl KafkaConsumer {
-    pub fn subscribe(
+    pub async fn subscribe(
         &mut self,
         consume_function: &dyn Fn(&[u8]) -> Result<(), Box<dyn Error>>,
     ) -> Result<(), Box<dyn Error>> {

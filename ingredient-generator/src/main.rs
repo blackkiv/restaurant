@@ -10,21 +10,22 @@ mod config;
 mod generator;
 mod ingredients;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let config = Config::load();
     let kafka_config = &config.kafka;
-    let mut generate_ingredient_producer =
-        KafkaProducer::create(&kafka_config.host, &kafka_config.generate_ingredient_topic);
+    let mut ingredient_generated_producer =
+        KafkaProducer::create(&kafka_config.host, &kafka_config.ingredient_generated_topic);
     if let Ok(generator) = Generator::init(&config) {
         loop {
             thread::sleep(Duration::from_secs(1));
             let ingredient = generator.generate_ingredient();
-            match generate_ingredient_producer.send_message(&ingredient) {
+            match ingredient_generated_producer.send_message(&ingredient).await {
                 Ok(_) => println!(
-                    "successfully sent generate_ingredient event: {:?}",
+                    "successfully sent ingredient_generated event: {:?}",
                     &ingredient
                 ),
-                Err(error) => eprintln!("error while send generate_ingredient event {}", error),
+                Err(error) => eprintln!("error while send ingredient_generated event {}", error),
             }
         }
     }

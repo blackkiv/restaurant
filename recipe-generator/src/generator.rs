@@ -36,7 +36,7 @@ impl Generator {
 
 */
 impl Generator {
-    pub fn generate_recipe(&self, username: &str) -> Recipe {
+    pub async fn generate_recipe(&self, username: &str) -> Recipe {
         let (hexed, bytes) = hash_username(username);
 
         let mut ingredients = Vec::with_capacity(12);

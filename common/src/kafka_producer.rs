@@ -26,7 +26,7 @@ impl KafkaProducer {
 }
 
 impl KafkaProducer {
-    pub fn send_message<T: Serialize>(&mut self, object: &T) -> Result<(), Box<dyn Error>> {
+    pub async fn send_message<T: Serialize>(&mut self, object: &T) -> Result<(), Box<dyn Error>> {
         let json = serde_json::to_vec(object)?;
         let _ = &self.producer.send(&Record::from_value(&self.topic, json))?;
         Ok(())

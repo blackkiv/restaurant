@@ -13,7 +13,7 @@ pub struct Config {
 #[derive(Deserialize, Debug)]
 pub struct Kafka {
     pub host: String,
-    pub generate_ingredient_topic: String,
+    pub ingredient_generated_topic: String,
 }
 
 #[derive(Deserialize, Debug)]

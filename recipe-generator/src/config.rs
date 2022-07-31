@@ -12,7 +12,7 @@ pub struct Config {
 #[derive(Deserialize, Debug)]
 pub struct Kafka {
     pub host: String,
-    pub generate_recipe_topic: String,
+    pub recipe_generated_topic: String,
 }
 
 impl Config {
