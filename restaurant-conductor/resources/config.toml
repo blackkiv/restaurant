@@ -1,0 +1,6 @@
+[kafka]
+host = "localhost:29092"
+consumer_group = "restaurant_conductor"
+recipe_generated_topic = "recipe_generated"
+order_prepared_topic = "order_prepared"
+order_created_topic = "order_created"
