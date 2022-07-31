@@ -1,4 +1,3 @@
-use std::error::Error;
 use std::thread;
 use std::time::Duration;
 
@@ -20,7 +19,10 @@ async fn main() {
         loop {
             thread::sleep(Duration::from_secs(*&config.generation_config.interval));
             let ingredient = generator.generate_ingredient();
-            match ingredient_generated_producer.send_message(&ingredient).await {
+            match ingredient_generated_producer
+                .send_message(&ingredient)
+                .await
+            {
                 Ok(_) => println!(
                     "successfully sent ingredient_generated event: {:?}",
                     &ingredient

@@ -34,7 +34,7 @@ async fn main() {
     }
 }
 
-fn consume(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
+async fn consume(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
     println!("event received");
     let recipe = serde_json::from_slice::<Recipe>(row_event)?;
     println!("{:#?}", recipe);

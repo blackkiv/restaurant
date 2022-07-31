@@ -9,9 +9,9 @@ pub trait AsyncFn<T>: Fn(T) -> <Self as AsyncFn<T>>::Fut {
 }
 
 impl<T, F, Fut> AsyncFn<T> for F
-    where
-        F: Fn(T) -> Fut,
-        Fut: Future,
+where
+    F: Fn(T) -> Fut,
+    Fut: Future,
 {
     type Fut = Fut;
     type Output = Fut::Output;

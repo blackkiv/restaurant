@@ -1,9 +1,9 @@
 pub use kafka_consumer::KafkaConsumer;
 pub use kafka_producer::KafkaProducer;
 
+pub mod async_fn;
 mod kafka_consumer;
 mod kafka_producer;
-pub mod async_fn;
 pub mod recipe;
 
 #[cfg(test)]

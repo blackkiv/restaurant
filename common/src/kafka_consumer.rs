@@ -1,7 +1,4 @@
 use std::error::Error;
-use std::future::Future;
-use std::pin::Pin;
-use std::process::Output;
 
 use crate::async_fn::AsyncFn;
 
@@ -33,7 +30,7 @@ impl KafkaConsumer {
         loop {
             for msg in self.consumer.poll().unwrap().iter() {
                 for m in msg.messages() {
-                    consume_function(m.value).await;
+                    consume_function(m.value).await?;
                 }
                 self.consumer.consume_messageset(msg)?;
             }
