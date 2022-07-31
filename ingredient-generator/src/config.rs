@@ -18,6 +18,7 @@ pub struct Kafka {
 
 #[derive(Deserialize, Debug)]
 pub struct GenerationConfig {
+    pub interval: u64,
     pub amount_range: AmountRange,
 }
 
