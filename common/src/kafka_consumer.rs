@@ -1,6 +1,9 @@
 use std::error::Error;
 use std::future::Future;
+use std::pin::Pin;
 use std::process::Output;
+
+use crate::async_fn::AsyncFn;
 
 use kafka::consumer::{Consumer, FetchOffset, GroupOffsetStorage};
 
@@ -23,14 +26,14 @@ impl KafkaConsumer {
 }
 
 impl KafkaConsumer {
-    pub async fn subscribe(
-        &mut self,
-        consume_function: &dyn Fn(&[u8]) -> Result<(), Box<dyn Error>>,
-    ) -> Result<(), Box<dyn Error>> {
+    pub async fn subscribe<Fun>(&mut self, consume_function: Fun) -> Result<(), Box<dyn Error>>
+    where
+        Fun: for<'a> AsyncFn<&'a [u8], Output = Result<(), Box<dyn Error>>>,
+    {
         loop {
             for msg in self.consumer.poll().unwrap().iter() {
                 for m in msg.messages() {
-                    consume_function(m.value)?;
+                    consume_function(m.value).await;
                 }
                 self.consumer.consume_messageset(msg)?;
             }

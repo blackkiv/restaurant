@@ -3,6 +3,7 @@ pub use kafka_producer::KafkaProducer;
 
 mod kafka_consumer;
 mod kafka_producer;
+pub mod async_fn;
 pub mod recipe;
 
 #[cfg(test)]

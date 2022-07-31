@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::pin::Pin;
 
 use tokio::join;
 
@@ -21,8 +22,8 @@ pub async fn listen_events(config: &Config) -> Result<(), Box<dyn Error>> {
     );
 
     if let (Err(recipe_error), Err(order_error)) = join!(
-        recipe_generated_consumer.subscribe(&recipe_consumer),
-        order_prepared_consumer.subscribe(&order_consumer)
+        recipe_generated_consumer.subscribe(recipe_consumer),
+        order_prepared_consumer.subscribe(order_consumer)
     ) {
         eprintln!("recipe_generated error {}", recipe_error);
         eprintln!("order_prepared error {}", order_error);
@@ -31,14 +32,14 @@ pub async fn listen_events(config: &Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn recipe_consumer(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
+async fn recipe_consumer(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
     println!("recipe created event received");
     let recipe = serde_json::from_slice::<Recipe>(row_event)?;
     println!("{:#?}", recipe);
     Ok(())
 }
 
-fn order_consumer(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
+async fn order_consumer(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
     println!("order prepared event received");
     let recipe = serde_json::from_slice::<Recipe>(row_event)?;
     println!("{:#?}", recipe);

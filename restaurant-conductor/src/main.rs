@@ -10,7 +10,7 @@ mod listener;
 async fn main() {
     let config = Config::load();
 
-    if let (Err(listener_error)) = join!(listen_events(&config)) {
+    if let ((Err(listener_error), )) = join!(listen_events(&config)) {
         eprintln!("listener error {}", listener_error)
     }
 }
