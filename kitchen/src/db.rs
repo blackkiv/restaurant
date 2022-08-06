@@ -3,7 +3,7 @@ use std::sync::Arc;
 
 use mongodb::{Client, Collection};
 use mongodb::bson::doc;
-use mongodb::options::{ClientOptions, FindOptions, UpdateOptions};
+use mongodb::options::{ClientOptions, UpdateOptions};
 use tokio::sync::Mutex;
 
 use common::recipe::{Ingredient, Order};

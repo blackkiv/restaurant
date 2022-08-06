@@ -1,7 +1,5 @@
 #![feature(async_closure)]
 
-use tokio::join;
-
 use crate::config::Config;
 use crate::db::MongoCollections;
 use crate::listener::listen_events;
