@@ -1,0 +1,12 @@
+[mongo]
+connection_url = "mongodb://localhost:27017"
+database_name = "kitchen"
+order_collection = "order"
+ingrediend_collection = "ingredient"
+
+[kafka]
+host = "localhost:29092"
+consumer_group = "kitchen"
+order_prepared_topic = "order_prepared"
+order_created_topic = "order_created"
+ingredient_generated_topic = "ingredient_generated"
