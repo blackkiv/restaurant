@@ -21,7 +21,7 @@ pub async fn generate_order(
             thread::sleep(Duration::from_secs(config.generation_config.interval));
             if let Ok(recipe) = collection.lock().await.find_random().await {
                 match order_created_producer.send_message(&recipe).await {
-                    Ok(_) => println!("successfully sent ingrorder_created event: {:?}", &recipe),
+                    Ok(_) => println!("successfully sent order_created event: {:?}", &recipe),
                     Err(error) => {
                         eprintln!("error while send ingredient_generated event {}", error);
                     }
