@@ -8,9 +8,9 @@ use common::recipe::Recipe;
 use common::types::EmptyStaticResult;
 
 use crate::Config;
-use crate::db::RecipeCollection;
+use crate::db::MongoCollections;
 
-pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<RecipeCollection>>) {
+pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<MongoCollections>>) {
     let kafka_config = &config.kafka;
     let mut recipe_generated_listener = KafkaConsumer::create(
         &kafka_config.host,
@@ -31,6 +31,7 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Recip
         collection_ref
             .lock()
             .await
+            .recipe_collection
             .save(recipe)
             .await
             .map_err(|err| err.to_string())?;
@@ -45,6 +46,7 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Recip
         collection_ref
             .lock()
             .await
+            .recipe_collection
             .save(recipe)
             .await
             .map_err(|err| err.to_string())?;

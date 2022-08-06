@@ -1,4 +1,11 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Order {
+    pub recipe: Recipe,
+    pub created_at: DateTime<Utc>,
+}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Recipe {
