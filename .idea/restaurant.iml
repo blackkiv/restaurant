@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/recipe-generator/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/recipe-generator/target" />
       <excludeFolder url="file://$MODULE_DIR$/ingredient-generator/target" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

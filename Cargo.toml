@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "common",
+    "ingredient-generator",
+    "recipe-generator",
+    "restaurant-conductor",
+    "kitchen"
+]
