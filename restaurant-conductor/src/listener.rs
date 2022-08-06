@@ -29,7 +29,6 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Recip
         println!("recipe created event received {:?}", recipe);
         let recipe_hash = recipe.hash.clone();
         collection_ref
-            .clone()
             .lock()
             .await
             .save(recipe)
@@ -44,7 +43,6 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Recip
         println!("order prepared event received {:?}", recipe);
         let recipe_hash = recipe.hash.clone();
         collection_ref
-            .clone()
             .lock()
             .await
             .save(recipe)
