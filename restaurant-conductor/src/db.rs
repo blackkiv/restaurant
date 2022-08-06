@@ -3,7 +3,7 @@ use std::sync::Arc;
 
 use futures::stream::TryStreamExt;
 use mongodb::{Client, Collection};
-use mongodb::bson::{Bson, doc, Document};
+use mongodb::bson::{Bson, doc};
 use mongodb::options::ClientOptions;
 use serde_json::Value;
 use tokio::sync::Mutex;

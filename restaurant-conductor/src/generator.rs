@@ -1,4 +1,3 @@
-use std::future::Future;
 use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
@@ -6,7 +5,6 @@ use std::time::Duration;
 use tokio::sync::Mutex;
 
 use common::KafkaProducer;
-use common::types::EmptyResult;
 
 use crate::config::Config;
 use crate::RecipeCollection;
