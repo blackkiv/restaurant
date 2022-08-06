@@ -2,7 +2,7 @@
 connection_url = "mongodb://localhost:27017"
 database_name = "kitchen"
 order_collection = "order"
-ingrediend_collection = "ingredient"
+ingredient_collection = "ingredient"
 
 [kafka]
 host = "localhost:29092"

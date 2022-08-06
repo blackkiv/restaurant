@@ -22,13 +22,12 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Mongo
         &kafka_config.order_prepared_topic,
         &kafka_config.consumer_group,
     );
-    let collection_ref = collection;
     let recipe_generated_consumer = async move |row_event: Vec<u8>| -> EmptyStaticResult {
         let recipe = serde_json::from_slice::<Recipe>(row_event.as_slice())
             .map_err(|err| err.to_string())?;
         println!("recipe created event received {:?}", recipe);
         let recipe_hash = recipe.hash.clone();
-        collection_ref
+        collection
             .lock()
             .await
             .recipe_collection
@@ -43,7 +42,7 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Mongo
             .map_err(|err| err.to_string())?;
         println!("order prepared event received {:?}", recipe);
         let recipe_hash = recipe.hash.clone();
-        collection_ref
+        collection
             .lock()
             .await
             .recipe_collection
@@ -64,6 +63,7 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Mongo
             .subscribe(order_prepared_consumer)
             .await
     });
+
     if let (Err(recipe_generated_error), Err(order_prepared_error)) =
     join!(recipe_generated_listener_task, order_prepared_listener_task)
     {
