@@ -1,4 +1,4 @@
-use std::error::Error;
+
 
 use kafka::consumer::{Consumer, FetchOffset, GroupOffsetStorage};
 

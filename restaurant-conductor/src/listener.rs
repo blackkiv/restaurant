@@ -1,8 +1,6 @@
-use std::borrow::BorrowMut;
-use std::error::Error;
 use std::sync::Arc;
 
-use tokio::{join, select, try_join};
+use tokio::join;
 use tokio::sync::Mutex;
 
 use common::KafkaConsumer;

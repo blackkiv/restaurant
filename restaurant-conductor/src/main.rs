@@ -1,9 +1,7 @@
 #![feature(async_closure)]
 
-use std::sync::Arc;
 
 use tokio::join;
-use tokio::sync::Mutex;
 
 use crate::config::Config;
 use crate::db::RecipeCollection;

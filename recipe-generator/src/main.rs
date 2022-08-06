@@ -1,8 +1,4 @@
-use std::error::Error;
-
-use common::{KafkaConsumer, KafkaProducer};
-use common::recipe::Recipe;
-use common::types::EmptyResult;
+use common::KafkaProducer;
 use config::Config;
 use generator::Generator;
 
