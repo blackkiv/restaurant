@@ -5,6 +5,7 @@ use serde::Deserialize;
 #[derive(Deserialize, Debug)]
 pub struct Config {
     pub kafka: Kafka,
+    pub mongo: Mongo,
 }
 
 #[derive(Deserialize, Debug)]
@@ -16,11 +17,18 @@ pub struct Kafka {
     pub order_created_topic: String,
 }
 
+#[derive(Deserialize, Debug)]
+pub struct Mongo {
+    pub connection_url: String,
+    pub database_name: String,
+    pub recipe_collection: String,
+}
+
 impl Config {
-    pub fn load() -> Config {
+    pub fn load() -> &'static Config {
         let config_source =
             fs::read_to_string("resources/config.toml").expect("config file not found");
         let config = toml::from_str(&config_source).expect("wrong config file format");
-        dbg!(config)
+        Box::leak(Box::new(dbg!(config)))
     }
 }

@@ -1,8 +1,9 @@
 use std::error::Error;
 
-use crate::async_fn::AsyncFn;
-
 use kafka::consumer::{Consumer, FetchOffset, GroupOffsetStorage};
+
+use crate::async_fn::AsyncFn;
+use crate::types::EmptyStaticResult;
 
 pub struct KafkaConsumer {
     consumer: Consumer,
@@ -23,14 +24,14 @@ impl KafkaConsumer {
 }
 
 impl KafkaConsumer {
-    pub async fn subscribe<Fun>(&mut self, consume_function: Fun) -> Result<(), Box<dyn Error>>
+    pub async fn subscribe<Fun>(&mut self, consume_function: Fun) -> EmptyStaticResult
     where
-        Fun: for<'a> AsyncFn<&'a [u8], Output = Result<(), Box<dyn Error>>>,
+        Fun: AsyncFn<Vec<u8>, Output =EmptyStaticResult> + Copy,
     {
         loop {
             for msg in self.consumer.poll().unwrap().iter() {
                 for m in msg.messages() {
-                    consume_function(m.value).await?;
+                    consume_function(m.value.to_vec()).await?;
                 }
                 self.consumer.consume_messageset(msg)?;
             }

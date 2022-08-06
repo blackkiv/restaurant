@@ -5,6 +5,7 @@ pub mod async_fn;
 mod kafka_consumer;
 mod kafka_producer;
 pub mod recipe;
+pub mod types;
 
 #[cfg(test)]
 mod tests {

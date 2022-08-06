@@ -1,46 +1,78 @@
+use std::borrow::BorrowMut;
 use std::error::Error;
+use std::sync::Arc;
 
-use tokio::join;
+use tokio::{join, select, try_join};
+use tokio::sync::Mutex;
 
 use common::KafkaConsumer;
 use common::recipe::Recipe;
+use common::types::EmptyStaticResult;
 
 use crate::Config;
+use crate::db::RecipeCollection;
 
-pub async fn listen_events(config: &Config) -> Result<(), Box<dyn Error>> {
+pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<RecipeCollection>>) {
     let kafka_config = &config.kafka;
-    let mut recipe_generated_consumer = KafkaConsumer::create(
+    let recipe_generated_listener = Arc::new(Mutex::new(KafkaConsumer::create(
         &kafka_config.host,
         &kafka_config.recipe_generated_topic,
         &kafka_config.consumer_group,
-    );
-    let mut order_prepared_consumer = KafkaConsumer::create(
+    )));
+    let order_prepared_listener = Arc::new(Mutex::new(KafkaConsumer::create(
         &kafka_config.host,
         &kafka_config.order_prepared_topic,
         &kafka_config.consumer_group,
-    );
-
-    if let (Err(recipe_error), Err(order_error)) = join!(
-        recipe_generated_consumer.subscribe(recipe_consumer),
-        order_prepared_consumer.subscribe(order_consumer)
-    ) {
-        eprintln!("recipe_generated error {}", recipe_error);
-        eprintln!("order_prepared error {}", order_error);
+    )));
+    let collection_ref = collection;
+    let recipe_generated_consumer = async move |row_event: Vec<u8>| -> EmptyStaticResult {
+        let recipe = serde_json::from_slice::<Recipe>(row_event.as_slice())
+            .map_err(|err| err.to_string())?;
+        println!("recipe created event received {:?}", recipe);
+        let recipe_hash = recipe.hash.clone();
+        collection_ref
+            .clone()
+            .lock()
+            .await
+            .save(recipe)
+            .await
+            .map_err(|err| err.to_string())?;
+        println!("recipe {} saved", recipe_hash);
+        Ok(())
+    };
+    let order_prepared_consumer = async move |row_event: Vec<u8>| -> EmptyStaticResult {
+        let recipe = serde_json::from_slice::<Recipe>(row_event.as_slice())
+            .map_err(|err| err.to_string())?;
+        println!("order prepared event received {:?}", recipe);
+        let recipe_hash = recipe.hash.clone();
+        collection_ref
+            .clone()
+            .lock()
+            .await
+            .save(recipe)
+            .await
+            .map_err(|err| err.to_string())?;
+        println!("order {} saved", recipe_hash);
+        Ok(())
     };
 
-    Ok(())
-}
-
-async fn recipe_consumer(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
-    println!("recipe created event received");
-    let recipe = serde_json::from_slice::<Recipe>(row_event)?;
-    println!("{:#?}", recipe);
-    Ok(())
-}
-
-async fn order_consumer(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
-    println!("order prepared event received");
-    let recipe = serde_json::from_slice::<Recipe>(row_event)?;
-    println!("{:#?}", recipe);
-    Ok(())
+    let recipe_generated_listener_task = tokio::spawn(async move {
+        recipe_generated_listener
+            .lock()
+            .await
+            .subscribe(recipe_generated_consumer)
+            .await
+    });
+    let order_prepared_listener_task = tokio::spawn(async move {
+        order_prepared_listener
+            .lock()
+            .await
+            .subscribe(order_prepared_consumer)
+            .await
+    });
+    if let (Err(recipe_generated_error), Err(order_prepared_error)) =
+    join!(recipe_generated_listener_task, order_prepared_listener_task)
+    {
+        eprintln!("{}, {}", recipe_generated_error, order_prepared_error);
+    }
 }

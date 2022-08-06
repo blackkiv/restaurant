@@ -2,6 +2,7 @@ use std::error::Error;
 
 use common::{KafkaConsumer, KafkaProducer};
 use common::recipe::Recipe;
+use common::types::EmptyResult;
 use config::Config;
 use generator::Generator;
 
@@ -23,20 +24,4 @@ async fn main() {
             println!("sent recipe: {:#?}", recipe);
         }
     }
-    println!("CONSUMING");
-    let mut recipe_generated_consumer = KafkaConsumer::create(
-        &kafka_config.host,
-        &kafka_config.recipe_generated_topic,
-        "recipe-generator",
-    );
-    if let Err(err) = recipe_generated_consumer.subscribe(&consume).await {
-        eprintln!("{}", err);
-    }
-}
-
-async fn consume(row_event: &[u8]) -> Result<(), Box<dyn Error>> {
-    println!("event received");
-    let recipe = serde_json::from_slice::<Recipe>(row_event)?;
-    println!("{:#?}", recipe);
-    Ok(())
 }

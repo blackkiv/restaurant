@@ -1,3 +1,8 @@
+[mongo]
+connection_url = "mongodb://localhost:27017"
+database_name = "restaurant_conductor"
+recipe_collection = "recipe"
+
 [kafka]
 host = "localhost:29092"
 consumer_group = "restaurant_conductor"
