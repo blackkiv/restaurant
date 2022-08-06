@@ -1,5 +1,3 @@
-
-
 use kafka::consumer::{Consumer, FetchOffset, GroupOffsetStorage};
 
 use crate::async_fn::AsyncFn;
@@ -26,7 +24,7 @@ impl KafkaConsumer {
 impl KafkaConsumer {
     pub async fn subscribe<Fun>(&mut self, consume_function: Fun) -> EmptyStaticResult
     where
-        Fun: AsyncFn<Vec<u8>, Output =EmptyStaticResult> + Copy,
+        Fun: AsyncFn<Vec<u8>, Output = EmptyStaticResult> + Copy,
     {
         loop {
             for msg in self.consumer.poll().unwrap().iter() {
