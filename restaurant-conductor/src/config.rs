@@ -6,6 +6,7 @@ use serde::Deserialize;
 pub struct Config {
     pub kafka: Kafka,
     pub mongo: Mongo,
+    pub generation_config: GenerationConfig,
 }
 
 #[derive(Deserialize, Debug)]
@@ -22,6 +23,11 @@ pub struct Mongo {
     pub connection_url: String,
     pub database_name: String,
     pub recipe_collection: String,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct GenerationConfig {
+    pub interval: u64,
 }
 
 impl Config {

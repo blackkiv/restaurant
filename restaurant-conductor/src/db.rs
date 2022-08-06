@@ -1,7 +1,11 @@
+use std::error::Error;
 use std::sync::Arc;
 
+use futures::stream::TryStreamExt;
 use mongodb::{Client, Collection};
+use mongodb::bson::{Bson, doc, Document};
 use mongodb::options::ClientOptions;
+use serde_json::Value;
 use tokio::sync::Mutex;
 
 use common::recipe::Recipe;
@@ -11,7 +15,7 @@ use crate::config::Mongo;
 
 #[derive(Debug)]
 pub struct RecipeCollection {
-    pub collection: Collection<Recipe>,
+    collection: Collection<Recipe>,
 }
 
 impl RecipeCollection {
@@ -33,6 +37,19 @@ impl RecipeCollection {
     pub async fn save(&self, recipe: Recipe) -> EmptyResult {
         let _ = &self.collection.insert_one(recipe, None).await?;
         Ok(())
+    }
+
+    pub async fn find_random(&self) -> Result<Recipe, Box<dyn Error + Send + Sync>> {
+        let pipeline = doc! { "$sample": { "size": 1 } };
+        self
+            .collection
+            .aggregate(vec![pipeline], None)
+            .await?
+            .try_next()
+            .await?
+            .ok_or_else(|| "empty collection".into())
+            .map(|document| Value::from(Bson::from(document)))
+            .map(|value| serde_json::from_value(value).unwrap())
     }
 }
 
