@@ -1,4 +1,3 @@
-
 use std::sync::Arc;
 
 use futures::TryStreamExt;
@@ -39,9 +38,7 @@ impl OrderCollection {
         Ok(())
     }
 
-    pub async fn find_ordered_by_creation_date(
-        &self,
-    ) -> TypedResult<Vec<Order>> {
+    pub async fn find_ordered_by_creation_date(&self) -> TypedResult<Vec<Order>> {
         let filter = doc! {"status": {"$eq": OrderStatus::CREATED.to_string()}};
         let sort = doc! {"created_at": 1};
         let options = FindOptions::builder().sort(sort).build();

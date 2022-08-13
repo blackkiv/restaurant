@@ -1,4 +1,3 @@
-
 use std::ops::Range;
 
 use rand::{Rng, thread_rng};

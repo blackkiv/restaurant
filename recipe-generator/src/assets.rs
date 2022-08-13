@@ -1,8 +1,8 @@
-
 use std::fs::File;
 use std::io::BufReader;
 
 use serde::Deserialize;
+
 use common::types::TypedResult;
 
 #[derive(Deserialize, Debug)]

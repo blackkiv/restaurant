@@ -1,6 +1,6 @@
-
 use std::fs::File;
 use std::io::BufReader;
+
 use common::types::TypedResult;
 
 pub fn available_ingredients(path: &str) -> TypedResult<Vec<String>> {
