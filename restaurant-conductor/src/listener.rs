@@ -5,7 +5,7 @@ use tokio::sync::Mutex;
 
 use common::KafkaConsumer;
 use common::model::{Order, Recipe};
-use common::types::EmptyStaticResult;
+use common::types::EmptyResult;
 
 use crate::Config;
 use crate::db::MongoCollections;
@@ -22,7 +22,7 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Mongo
         &kafka_config.order_prepared_topic,
         &kafka_config.consumer_group,
     );
-    let recipe_generated_consumer = async move |row_event: Vec<u8>| -> EmptyStaticResult {
+    let recipe_generated_consumer = async move |row_event: Vec<u8>| -> EmptyResult {
         let recipe = serde_json::from_slice::<Recipe>(row_event.as_slice())
             .map_err(|err| err.to_string())?;
         println!("recipe created event received {:?}", recipe);
@@ -37,7 +37,7 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Mongo
         println!("recipe {} saved", recipe_hash);
         Ok(())
     };
-    let order_prepared_consumer = async move |row_event: Vec<u8>| -> EmptyStaticResult {
+    let order_prepared_consumer = async move |row_event: Vec<u8>| -> EmptyResult {
         let order =
             serde_json::from_slice::<Order>(row_event.as_slice()).map_err(|err| err.to_string())?;
         println!("order prepared event received {:?}", order);

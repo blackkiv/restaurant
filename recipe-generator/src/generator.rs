@@ -1,8 +1,7 @@
-use std::error::Error;
-
 use sha2::{Digest, Sha256};
 
 use common::model::{Ingredient, Recipe};
+use common::types::TypedResult;
 
 use crate::{assets, Config};
 use crate::assets::Assets;
@@ -13,9 +12,10 @@ pub struct Generator {
 }
 
 impl Generator {
-    pub fn init(config: &Config) -> Result<Generator, Box<dyn Error>> {
+    pub fn init(config: &Config) -> TypedResult<Generator> {
         Ok(Generator {
-            assets: assets::load_assets(&config.assets_source_path)?,
+            assets: assets::load_assets(&config.assets_source_path)
+                .map_err(|error| error.to_string())?,
         })
     }
 }

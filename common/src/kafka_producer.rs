@@ -4,7 +4,7 @@ use kafka::client::RequiredAcks;
 use kafka::producer::{Producer, Record};
 use serde::Serialize;
 
-use crate::types::EmptyStaticResult;
+use crate::types::EmptyResult;
 
 pub struct KafkaProducer {
     producer: Producer,
@@ -27,7 +27,7 @@ impl KafkaProducer {
 }
 
 impl KafkaProducer {
-    pub async fn send_message<T: Serialize>(&mut self, object: &T) -> EmptyStaticResult {
+    pub async fn send_message<T: Serialize>(&mut self, object: &T) -> EmptyResult {
         let json = serde_json::to_vec(object)?;
         let _ = &self.producer.send(&Record::from_value(&self.topic, json))?;
         Ok(())

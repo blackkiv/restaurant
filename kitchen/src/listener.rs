@@ -2,7 +2,7 @@ use tokio::join;
 
 use common::KafkaConsumer;
 use common::model::{Ingredient, Order};
-use common::types::EmptyStaticResult;
+use common::types::EmptyResult;
 
 use crate::Config;
 use crate::db::{IngredientCollection, OrderCollection};
@@ -24,7 +24,7 @@ pub async fn listen_events(config: &Config) {
     let ingredient_collection = IngredientCollection::load(&config.mongo).await;
     let kitchen = Kitchen::create(kafka_config, order_collection, ingredient_collection);
 
-    let order_created_consumer = async move |row_event: Vec<u8>| -> EmptyStaticResult {
+    let order_created_consumer = async move |row_event: Vec<u8>| -> EmptyResult {
         let order =
             serde_json::from_slice::<Order>(row_event.as_slice()).map_err(|err| err.to_string())?;
         println!("order created event received {:?}", order);
@@ -33,7 +33,7 @@ pub async fn listen_events(config: &Config) {
         kitchen.lock().await.try_cook_orders().await?;
         Ok(())
     };
-    let ingredient_generated_consumer = async move |row_event: Vec<u8>| -> EmptyStaticResult {
+    let ingredient_generated_consumer = async move |row_event: Vec<u8>| -> EmptyResult {
         let ingredient = serde_json::from_slice::<Ingredient>(row_event.as_slice())
             .map_err(|err| err.to_string())?;
         println!("ingredient generated event received {:?}", ingredient);

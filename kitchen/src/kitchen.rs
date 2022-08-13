@@ -4,7 +4,7 @@ use tokio::sync::Mutex;
 
 use common::KafkaProducer;
 use common::model::{Ingredient, Order};
-use common::types::EmptyStaticResult;
+use common::types::EmptyResult;
 
 use crate::config::Kafka;
 use crate::db::{IngredientCollection, OrderCollection};
@@ -33,7 +33,7 @@ impl Kitchen {
 }
 
 impl Kitchen {
-    pub async fn try_cook_orders(&mut self) -> EmptyStaticResult {
+    pub async fn try_cook_orders(&mut self) -> EmptyResult {
         let orders = self
             .order_collection
             .find_ordered_by_creation_date()
@@ -61,7 +61,7 @@ impl Kitchen {
         Ok(())
     }
 
-    async fn prepare_order(&mut self, order: &Order) -> EmptyStaticResult {
+    async fn prepare_order(&mut self, order: &Order) -> EmptyResult {
         println!("prepare order {} with hash {}", order.id, order.recipe.hash);
         self.order_prepared_producer.send_message(order).await?;
         self.order_collection.order_prepared(order).await?;

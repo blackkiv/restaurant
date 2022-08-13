@@ -7,7 +7,7 @@ use mongodb::bson::doc;
 use mongodb::options::{ClientOptions, FindOptions, UpdateOptions};
 
 use common::model::{Ingredient, Order, OrderStatus};
-use common::types::EmptyStaticResult;
+use common::types::EmptyResult;
 
 use crate::config::Mongo;
 
@@ -34,7 +34,7 @@ impl OrderCollection {
 }
 
 impl OrderCollection {
-    pub async fn save(&self, order: Order) -> EmptyStaticResult {
+    pub async fn save(&self, order: Order) -> EmptyResult {
         let _ = &self.collection.insert_one(order, None).await?;
         Ok(())
     }
@@ -54,7 +54,7 @@ impl OrderCollection {
         Ok(orders)
     }
 
-    pub async fn order_prepared(&self, order: &Order) -> EmptyStaticResult {
+    pub async fn order_prepared(&self, order: &Order) -> EmptyResult {
         let query = doc! {"_id": order.id };
         let update = doc! {"$set": {"status" : OrderStatus::PREPARED.to_string()}};
         let _ = self.collection.update_one(query, update, None).await?;
@@ -78,7 +78,7 @@ impl IngredientCollection {
 }
 
 impl IngredientCollection {
-    pub async fn save(&self, ingredient: Ingredient, increase: bool) -> EmptyStaticResult {
+    pub async fn save(&self, ingredient: Ingredient, increase: bool) -> EmptyResult {
         let Ingredient { name, amount } = ingredient;
         let amount = amount as i32;
         let amount = if increase { amount } else { -amount };
@@ -100,7 +100,7 @@ impl IngredientCollection {
         Ok(ingredients)
     }
 
-    pub async fn remove_ingredients(&self, ingredients: &[Ingredient]) -> EmptyStaticResult {
+    pub async fn remove_ingredients(&self, ingredients: &[Ingredient]) -> EmptyResult {
         for ingredient in ingredients {
             self.save(
                 Ingredient {
