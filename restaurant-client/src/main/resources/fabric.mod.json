@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "restaurant-client",
+  "version": "${version}",
+  "name": "Restaurant Client",
+  "description": "Client integration for restaurant",
+  "authors": [
+    "blackkiv"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "restaurantclient.restaurantclient.client.RestaurantClientClient"
+    ],
+    "main": [
+      "restaurantclient.restaurantclient.RestaurantClient"
+    ]
+  },
+  "mixins": [
+    "restaurant-client.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric": "*",
+    "minecraft": "1.19.2"
+  }
+}
