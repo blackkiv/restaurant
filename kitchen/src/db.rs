@@ -1,17 +1,13 @@
 use std::error::Error;
-use std::fmt::format;
 use std::sync::Arc;
 
-use chrono::{DateTime, Utc};
-use futures::{StreamExt, TryStreamExt};
+use futures::TryStreamExt;
 use mongodb::{Client, Collection};
-use mongodb::bson::{doc, Document};
+use mongodb::bson::doc;
 use mongodb::options::{ClientOptions, FindOptions, UpdateOptions};
-use serde::{Deserialize, Serialize};
-use tokio::sync::Mutex;
 
-use common::model::{Ingredient, Order, OrderStatus, Recipe};
-use common::types::{EmptyResult, EmptyStaticResult};
+use common::model::{Ingredient, Order, OrderStatus};
+use common::types::EmptyStaticResult;
 
 use crate::config::Mongo;
 

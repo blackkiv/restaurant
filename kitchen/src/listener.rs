@@ -1,7 +1,4 @@
-use std::sync::Arc;
-
 use tokio::join;
-use tokio::sync::Mutex;
 
 use common::KafkaConsumer;
 use common::model::{Ingredient, Order};
