@@ -125,6 +125,7 @@ dependencies = [
 name = "common"
 version = "0.1.0"
 dependencies = [
+ "bson",
  "chrono",
  "kafka",
  "serde",

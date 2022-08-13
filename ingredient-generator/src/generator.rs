@@ -4,7 +4,7 @@ use std::ops::Range;
 use rand::{Rng, thread_rng};
 use rand::seq::SliceRandom;
 
-use common::recipe::Ingredient;
+use common::model::Ingredient;
 
 use crate::config::Config;
 use crate::ingredients;

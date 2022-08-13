@@ -3,10 +3,11 @@ use std::thread;
 use std::time::Duration;
 
 use chrono::Utc;
+use mongodb::bson::oid::ObjectId;
 use tokio::sync::Mutex;
 
 use common::KafkaProducer;
-use common::recipe::Order;
+use common::model::{Order, OrderStatus};
 
 use crate::config::Config;
 use crate::MongoCollections;
@@ -29,7 +30,9 @@ pub async fn generate_order(
                 .await
             {
                 let order = Order {
+                    id: ObjectId::new(),
                     recipe,
+                    status: OrderStatus::CREATED,
                     created_at: Utc::now(),
                 };
                 match order_created_producer.send_message(&order).await {

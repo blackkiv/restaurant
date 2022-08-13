@@ -8,7 +8,7 @@ use mongodb::options::ClientOptions;
 use serde_json::Value;
 use tokio::sync::Mutex;
 
-use common::recipe::Recipe;
+use common::model::Recipe;
 use common::types::EmptyResult;
 
 use crate::config::Mongo;

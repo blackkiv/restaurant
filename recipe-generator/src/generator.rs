@@ -2,7 +2,7 @@ use std::error::Error;
 
 use sha2::{Digest, Sha256};
 
-use common::recipe::{Ingredient, Recipe};
+use common::model::{Ingredient, Recipe};
 
 use crate::{assets, Config};
 use crate::assets::Assets;

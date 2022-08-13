@@ -29,7 +29,10 @@ impl KafkaConsumer {
         loop {
             for msg in self.consumer.poll().unwrap().iter() {
                 for m in msg.messages() {
-                    consume_function(m.value.to_vec()).await?;
+                    if let Err(error) = consume_function(m.value.to_vec()).await {
+                        eprintln!("{}", error);
+                        continue;
+                    }
                 }
                 self.consumer.consume_messageset(msg)?;
             }

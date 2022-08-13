@@ -4,7 +4,7 @@ use tokio::join;
 use tokio::sync::Mutex;
 
 use common::KafkaConsumer;
-use common::recipe::Recipe;
+use common::model::Recipe;
 use common::types::EmptyStaticResult;
 
 use crate::Config;

@@ -1,7 +1,6 @@
 #![feature(async_closure)]
 
 use crate::config::Config;
-use crate::db::MongoCollections;
 use crate::listener::listen_events;
 
 mod config;
@@ -12,6 +11,5 @@ mod listener;
 #[tokio::main]
 async fn main() {
     let config = Config::load();
-    let collections = MongoCollections::load(&config.mongo).await;
-    listen_events(config, collections).await;
+    listen_events(config).await;
 }
