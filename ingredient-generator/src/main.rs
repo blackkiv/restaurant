@@ -17,7 +17,7 @@ async fn main() {
         KafkaProducer::create(&kafka_config.host, &kafka_config.ingredient_generated_topic);
     if let Ok(generator) = Generator::init(&config) {
         loop {
-            thread::sleep(Duration::from_secs(*&config.generation_config.interval));
+            thread::sleep(Duration::from_secs(config.generation_config.interval));
             let ingredient = generator.generate_ingredient();
             match ingredient_generated_producer
                 .send_message(&ingredient)
