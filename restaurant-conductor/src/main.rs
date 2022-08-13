@@ -2,6 +2,8 @@
 
 use tokio::join;
 
+use common::config::load_config;
+
 use crate::config::Config;
 use crate::db::MongoCollections;
 use crate::generator::generate_order;
@@ -14,7 +16,7 @@ mod listener;
 
 #[tokio::main]
 async fn main() {
-    let config = Config::load();
+    let config: &'static Config = load_config();
     let collection = MongoCollections::load(&config.mongo).await;
     if let (Err(listener_error), Err(generate_error)) = join!(
         tokio::spawn(listen_events(config, collection)),

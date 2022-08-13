@@ -1,5 +1,7 @@
 #![feature(async_closure)]
 
+use common::config::load_config;
+
 use crate::config::Config;
 use crate::listener::listen_events;
 
@@ -10,6 +12,6 @@ mod listener;
 
 #[tokio::main]
 async fn main() {
-    let config = Config::load();
+    let config = load_config();
     listen_events(config).await;
 }

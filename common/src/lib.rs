@@ -6,6 +6,7 @@ mod kafka_consumer;
 mod kafka_producer;
 pub mod model;
 pub mod types;
+pub mod config;
 
 #[cfg(test)]
 mod tests {
