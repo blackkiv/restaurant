@@ -1,4 +1,4 @@
-use std::error::Error;
+
 use std::sync::Arc;
 
 use futures::TryStreamExt;
@@ -7,7 +7,7 @@ use mongodb::bson::doc;
 use mongodb::options::{ClientOptions, FindOptions, UpdateOptions};
 
 use common::model::{Ingredient, Order, OrderStatus};
-use common::types::EmptyResult;
+use common::types::{EmptyResult, TypedResult};
 
 use crate::config::Mongo;
 
@@ -41,7 +41,7 @@ impl OrderCollection {
 
     pub async fn find_ordered_by_creation_date(
         &self,
-    ) -> Result<Vec<Order>, Box<dyn Error + Send + Sync>> {
+    ) -> TypedResult<Vec<Order>> {
         let filter = doc! {"status": {"$eq": OrderStatus::CREATED.to_string()}};
         let sort = doc! {"created_at": 1};
         let options = FindOptions::builder().sort(sort).build();
@@ -89,7 +89,7 @@ impl IngredientCollection {
         Ok(())
     }
 
-    pub async fn find_all(&self) -> Result<Vec<Ingredient>, Box<dyn Error + Send + Sync>> {
+    pub async fn find_all(&self) -> TypedResult<Vec<Ingredient>> {
         let ingredients = self
             .collection
             .find(None, None)

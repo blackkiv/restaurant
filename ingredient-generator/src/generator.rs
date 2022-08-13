@@ -1,10 +1,11 @@
-use std::error::Error;
+
 use std::ops::Range;
 
 use rand::{Rng, thread_rng};
 use rand::seq::SliceRandom;
 
 use common::model::Ingredient;
+use common::types::TypedResult;
 
 use crate::config::Config;
 use crate::ingredients;
@@ -15,7 +16,7 @@ pub struct Generator {
 }
 
 impl Generator {
-    pub fn init(config: &Config) -> Result<Generator, Box<dyn Error>> {
+    pub fn init(config: &Config) -> TypedResult<Generator> {
         let range = &config.generation_config.amount_range;
         Ok(Generator {
             ingredients: ingredients::available_ingredients(&config.ingredient_source_path)?,

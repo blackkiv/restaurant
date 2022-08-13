@@ -1,8 +1,9 @@
-use std::error::Error;
+
 use std::fs::File;
 use std::io::BufReader;
+use common::types::TypedResult;
 
-pub fn available_ingredients(path: &str) -> Result<Vec<String>, Box<dyn Error>> {
+pub fn available_ingredients(path: &str) -> TypedResult<Vec<String>> {
     let ingredients_source = File::open(path)?;
     let ingredients_reader = BufReader::new(ingredients_source);
 

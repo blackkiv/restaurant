@@ -1,8 +1,9 @@
-use std::error::Error;
+
 use std::fs::File;
 use std::io::BufReader;
 
 use serde::Deserialize;
+use common::types::TypedResult;
 
 #[derive(Deserialize, Debug)]
 pub struct Assets {
@@ -11,7 +12,7 @@ pub struct Assets {
     pub adjectives: Vec<String>,
 }
 
-pub fn load_assets(assets_source_path: &str) -> Result<Assets, Box<dyn Error>> {
+pub fn load_assets(assets_source_path: &str) -> TypedResult<Assets> {
     let assets_source = File::open(assets_source_path)?;
     let assets_reader = BufReader::new(assets_source);
 

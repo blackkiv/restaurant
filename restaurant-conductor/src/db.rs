@@ -1,4 +1,4 @@
-use std::error::Error;
+
 use std::sync::Arc;
 
 use futures::stream::TryStreamExt;
@@ -9,7 +9,7 @@ use serde_json::Value;
 use tokio::sync::Mutex;
 
 use common::model::Recipe;
-use common::types::EmptyResult;
+use common::types::{EmptyResult, TypedResult};
 
 use crate::config::Mongo;
 
@@ -46,7 +46,7 @@ impl RecipeCollection {
         Ok(())
     }
 
-    pub async fn find_random(&self) -> Result<Recipe, Box<dyn Error + Send + Sync>> {
+    pub async fn find_random(&self) -> TypedResult<Recipe> {
         let pipeline = doc! { "$sample": { "size": 1 } };
         self.collection
             .aggregate(vec![pipeline], None)
