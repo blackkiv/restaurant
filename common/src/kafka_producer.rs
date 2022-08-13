@@ -1,10 +1,10 @@
-
 use std::time::Duration;
 
 use kafka::client::RequiredAcks;
 use kafka::producer::{Producer, Record};
 use serde::Serialize;
-use crate::types::{EmptyStaticResult};
+
+use crate::types::EmptyStaticResult;
 
 pub struct KafkaProducer {
     producer: Producer,

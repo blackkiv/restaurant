@@ -56,7 +56,7 @@ pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<Mongo
     });
 
     if let (Err(recipe_generated_error), Err(order_prepared_error)) =
-    join!(recipe_generated_listener_task, order_prepared_listener_task)
+        join!(recipe_generated_listener_task, order_prepared_listener_task)
     {
         eprintln!("{}, {}", recipe_generated_error, order_prepared_error);
     }

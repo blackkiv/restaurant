@@ -1,7 +1,7 @@
 use std::thread;
 use std::time::Duration;
-use common::config::load_config;
 
+use common::config::load_config;
 use common::KafkaProducer;
 use config::Config;
 use generator::Generator;

@@ -2,11 +2,11 @@ pub use kafka_consumer::KafkaConsumer;
 pub use kafka_producer::KafkaProducer;
 
 pub mod async_fn;
+pub mod config;
 mod kafka_consumer;
 mod kafka_producer;
 pub mod model;
 pub mod types;
-pub mod config;
 
 #[cfg(test)]
 mod tests {
