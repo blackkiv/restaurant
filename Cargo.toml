@@ -4,5 +4,6 @@ members = [
     "ingredient-generator",
     "recipe-generator",
     "restaurant-conductor",
-    "kitchen"
+    "kitchen",
+    "event-observer"
 ]
