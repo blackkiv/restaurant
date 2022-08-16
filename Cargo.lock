@@ -222,22 +222,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "common"
-version = "0.1.0"
-dependencies = [
- "bson",
- "chrono",
- "futures-channel",
- "futures-util",
- "kafka",
- "serde",
- "serde_json",
- "tokio",
- "tokio-tungstenite",
- "toml",
-]
-
-[[package]]
 name = "cookie"
 version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -435,11 +419,11 @@ name = "event-observer"
 version = "0.1.0"
 dependencies = [
  "chrono",
- "common",
  "futures",
  "futures-channel",
  "futures-util",
  "mongodb",
+ "restaurant-common",
  "serde",
  "serde_json",
  "tokio",
@@ -816,8 +800,8 @@ dependencies = [
 name = "ingredient-generator"
 version = "0.1.0"
 dependencies = [
- "common",
  "rand",
+ "restaurant-common",
  "serde",
  "serde_json",
  "tokio",
@@ -896,9 +880,9 @@ name = "kitchen"
 version = "0.1.0"
 dependencies = [
  "chrono",
- "common",
  "futures",
  "mongodb",
+ "restaurant-common",
  "serde",
  "serde_json",
  "tokio",
@@ -1368,7 +1352,7 @@ dependencies = [
 name = "recipe-generator"
 version = "0.1.0"
 dependencies = [
- "common",
+ "restaurant-common",
  "rocket",
  "serde",
  "serde_json",
@@ -1459,13 +1443,29 @@ dependencies = [
 name = "restaurant"
 version = "0.1.0"
 dependencies = [
- "common",
  "futures",
  "minecraft-client-rs",
  "mongodb",
+ "restaurant-common",
  "serde",
  "serde_json",
  "tokio",
+ "toml",
+]
+
+[[package]]
+name = "restaurant-common"
+version = "0.1.0"
+dependencies = [
+ "bson",
+ "chrono",
+ "futures-channel",
+ "futures-util",
+ "kafka",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-tungstenite",
  "toml",
 ]
 
@@ -1474,9 +1474,9 @@ name = "restaurant-conductor"
 version = "0.1.0"
 dependencies = [
  "chrono",
- "common",
  "futures",
  "mongodb",
+ "restaurant-common",
  "serde",
  "serde_json",
  "tokio",
