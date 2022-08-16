@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/event-observer/event-observer.iml" filepath="$PROJECT_DIR$/event-observer/event-observer.iml" />
       <module fileurl="file://$PROJECT_DIR$/ingredient-generator/ingredient-generator.iml" filepath="$PROJECT_DIR$/ingredient-generator/ingredient-generator.iml" />
       <module fileurl="file://$PROJECT_DIR$/kitchen/kitchen.iml" filepath="$PROJECT_DIR$/kitchen/kitchen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rcon-conductor/rcon-conductor.iml" filepath="$PROJECT_DIR$/rcon-conductor/rcon-conductor.iml" />
       <module fileurl="file://$PROJECT_DIR$/recipe-generator/recipe-generator.iml" filepath="$PROJECT_DIR$/recipe-generator/recipe-generator.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/restaurant.iml" filepath="$PROJECT_DIR$/.idea/restaurant.iml" />
       <module fileurl="file://$PROJECT_DIR$/restaurant-conductor/restaurant-conductor.iml" filepath="$PROJECT_DIR$/restaurant-conductor/restaurant-conductor.iml" />

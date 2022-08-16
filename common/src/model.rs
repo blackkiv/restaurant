@@ -16,17 +16,24 @@ pub struct EventBody {
     pub body: Vec<u8>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(PartialEq, Eq, Serialize, Deserialize, Debug)]
 pub enum EventBodyType {
     Order,
     Recipe,
     Ingredient,
     Message,
+    Ignore,
 }
 
 impl From<&Order> for EventBodyType {
     fn from(_: &Order) -> Self {
         EventBodyType::Order
+    }
+}
+
+impl From<&UserRecipe> for EventBodyType {
+    fn from(_: &UserRecipe) -> Self {
+        EventBodyType::Ignore
     }
 }
 
@@ -67,6 +74,12 @@ impl Display for OrderStatus {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{:?}", self)
     }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct UserRecipe {
+    pub username: String,
+    pub recipe_hash: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

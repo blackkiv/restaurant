@@ -1,12 +1,12 @@
 use tokio::join;
 
-use common::KafkaConsumer;
 use common::model::{Ingredient, Order};
 use common::types::EmptyResult;
+use common::KafkaConsumer;
 
-use crate::Config;
 use crate::db::{IngredientCollection, OrderCollection};
 use crate::kitchen::Kitchen;
+use crate::Config;
 
 pub async fn listen_events(config: &Config) {
     let kafka_config = &config.kafka;

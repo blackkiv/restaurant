@@ -85,8 +85,8 @@ fn create_client_request(url: &str, service_name: &str) -> TypedResult<Request> 
 
 impl KafkaProducer {
     pub async fn send_message<T: Serialize>(&mut self, object: &T) -> EmptyResult
-        where
-            EventBodyType: for<'a> From<&'a T>,
+    where
+        EventBodyType: for<'a> From<&'a T>,
     {
         let json_object = serde_json::to_vec(&object)?;
         let _ = &self
@@ -96,9 +96,11 @@ impl KafkaProducer {
             body_type: object.into(),
             body: json_object,
         };
-        let event_json = serde_json::to_vec(&event)?;
-        self.event_observer
-            .unbounded_send(Message::Binary(event_json))?;
+        if matches!(event.body_type, EventBodyType::Ignore) {
+            let event_json = serde_json::to_vec(&event)?;
+            self.event_observer
+                .unbounded_send(Message::Binary(event_json))?;
+        }
         Ok(())
     }
 }

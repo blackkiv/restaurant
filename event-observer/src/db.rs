@@ -2,8 +2,8 @@ use std::sync::Arc;
 
 use chrono::Utc;
 use futures::stream::TryStreamExt;
-use mongodb::{Client, Collection};
 use mongodb::options::ClientOptions;
+use mongodb::{Client, Collection};
 use tokio::sync::Mutex;
 
 use common::model::{Event, EventBody};

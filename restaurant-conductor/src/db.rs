@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
 use futures::stream::TryStreamExt;
-use mongodb::{Client, Collection};
-use mongodb::bson::{Bson, doc};
+use mongodb::bson::{doc, Bson};
 use mongodb::options::ClientOptions;
+use mongodb::{Client, Collection};
 use serde_json::Value;
 use tokio::sync::Mutex;
 
