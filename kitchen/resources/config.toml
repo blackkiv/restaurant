@@ -10,3 +10,7 @@ consumer_group = "kitchen"
 order_prepared_topic = "order_prepared"
 order_created_topic = "order_created"
 ingredient_generated_topic = "ingredient_generated"
+
+[event_observer]
+addr = "ws://127.0.0.1:9991/"
+service_name = "kitchen"

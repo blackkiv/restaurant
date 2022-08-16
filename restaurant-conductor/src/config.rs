@@ -1,10 +1,13 @@
 use serde::Deserialize;
 
+use common::config::EventObserver;
+
 #[derive(Deserialize, Debug)]
 pub struct Config {
     pub kafka: Kafka,
     pub mongo: Mongo,
     pub generation_config: GenerationConfig,
+    pub event_observer: EventObserver,
 }
 
 #[derive(Deserialize, Debug)]

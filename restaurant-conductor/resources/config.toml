@@ -12,3 +12,7 @@ order_created_topic = "order_created"
 
 [generation_config]
 interval = 2
+
+[event_observer]
+addr = "ws://127.0.0.1:9991/"
+service_name = "restaurant_conductor"

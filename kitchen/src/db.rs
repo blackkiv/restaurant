@@ -39,7 +39,7 @@ impl OrderCollection {
     }
 
     pub async fn find_ordered_by_creation_date(&self) -> TypedResult<Vec<Order>> {
-        let filter = doc! {"status": {"$eq": OrderStatus::CREATED.to_string()}};
+        let filter = doc! {"status": {"$eq": OrderStatus::Created.to_string()}};
         let sort = doc! {"created_at": 1};
         let options = FindOptions::builder().sort(sort).build();
         let orders = self
@@ -53,7 +53,7 @@ impl OrderCollection {
 
     pub async fn order_prepared(&self, order: &Order) -> EmptyResult {
         let query = doc! {"_id": order.id };
-        let update = doc! {"$set": {"status" : OrderStatus::PREPARED.to_string()}};
+        let update = doc! {"$set": {"status" : OrderStatus::Prepared.to_string()}};
         let _ = self.collection.update_one(query, update, None).await?;
         Ok(())
     }

@@ -6,6 +6,7 @@ use chrono::Utc;
 use mongodb::bson::oid::ObjectId;
 use tokio::sync::Mutex;
 
+use common::config::EventObserver;
 use common::KafkaProducer;
 use common::model::{Order, OrderStatus};
 
@@ -17,8 +18,14 @@ pub async fn generate_order(
     collection: &'static Arc<Mutex<MongoCollections>>,
 ) {
     let kafka_config = &config.kafka;
-    let mut order_created_producer =
-        KafkaProducer::create(&kafka_config.host, &kafka_config.order_created_topic);
+    let EventObserver { addr, service_name } = &config.event_observer;
+    let mut order_created_producer = KafkaProducer::create(
+        &kafka_config.host,
+        &kafka_config.order_created_topic,
+        addr,
+        service_name,
+    )
+        .await;
     let order_generator_task = tokio::spawn(async move {
         loop {
             thread::sleep(Duration::from_secs(config.generation_config.interval));
@@ -32,13 +39,13 @@ pub async fn generate_order(
                 let order = Order {
                     id: ObjectId::new(),
                     recipe,
-                    status: OrderStatus::CREATED,
+                    status: OrderStatus::Created,
                     created_at: Utc::now(),
                 };
                 match order_created_producer.send_message(&order).await {
                     Ok(_) => println!("successfully sent order_created event: {:?}", &order),
                     Err(error) => {
-                        eprintln!("error while send ingredient_generated event {}", error);
+                        eprintln!("error while send order_created event {}", error);
                     }
                 };
             }

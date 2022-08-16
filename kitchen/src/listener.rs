@@ -22,7 +22,7 @@ pub async fn listen_events(config: &Config) {
     );
     let order_collection = OrderCollection::load(&config.mongo).await;
     let ingredient_collection = IngredientCollection::load(&config.mongo).await;
-    let kitchen = Kitchen::create(kafka_config, order_collection, ingredient_collection);
+    let kitchen = Kitchen::create(config, order_collection, ingredient_collection).await;
 
     let order_created_consumer = async move |row_event: Vec<u8>| -> EmptyResult {
         let order =

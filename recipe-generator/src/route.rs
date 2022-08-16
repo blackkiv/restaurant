@@ -4,7 +4,7 @@ use rocket::response::status::{Created, NotFound};
 use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
 
-use common::config::load_config;
+use common::config::{EventObserver, load_config};
 use common::KafkaProducer;
 use common::types::TypedResult;
 
@@ -39,8 +39,14 @@ async fn handle_generation_request(username: &str) -> TypedResult<String> {
     }
     let config: &'static Config = load_config();
     let kafka_config = &config.kafka;
-    let mut recipe_generated_producer =
-        KafkaProducer::create(&kafka_config.host, &kafka_config.recipe_generated_topic);
+    let EventObserver { addr, service_name } = &config.event_observer;
+    let mut recipe_generated_producer = KafkaProducer::create(
+        &kafka_config.host,
+        &kafka_config.recipe_generated_topic,
+        addr,
+        service_name,
+    )
+        .await;
     let generator = Generator::init(config)?;
     let recipe = generator.generate_recipe(username).await;
     let _ = recipe_generated_producer.send_message(&recipe).await;

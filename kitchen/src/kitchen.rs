@@ -2,10 +2,12 @@ use std::sync::Arc;
 
 use tokio::sync::Mutex;
 
+use common::config::EventObserver;
 use common::KafkaProducer;
 use common::model::{Ingredient, Order};
 use common::types::EmptyResult;
 
+use crate::Config;
 use crate::config::Kafka;
 use crate::db::{IngredientCollection, OrderCollection};
 
@@ -16,13 +18,19 @@ pub struct Kitchen {
 }
 
 impl Kitchen {
-    pub fn create(
-        kafka_config: &Kafka,
+    pub async fn create(
+        config: &Config,
         order_collection: &'static Arc<OrderCollection>,
         ingredient_collection: &'static Arc<IngredientCollection>,
     ) -> &'static Arc<Mutex<Kitchen>> {
-        let producer =
-            KafkaProducer::create(&kafka_config.host, &kafka_config.order_prepared_topic);
+        let kafka_config = &config.kafka;
+        let EventObserver { addr, service_name } = &config.event_observer;
+        let producer = KafkaProducer::create(
+            &kafka_config.host,
+            &kafka_config.order_prepared_topic,
+            addr,
+            service_name,
+        ).await;
 
         Box::leak(Box::new(Arc::new(Mutex::new(Kitchen {
             order_collection,

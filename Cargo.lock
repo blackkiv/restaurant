@@ -227,10 +227,13 @@ version = "0.1.0"
 dependencies = [
  "bson",
  "chrono",
+ "futures-channel",
+ "futures-util",
  "kafka",
  "serde",
  "serde_json",
  "tokio",
+ "tokio-tungstenite",
  "toml",
 ]
 
@@ -431,9 +434,18 @@ dependencies = [
 name = "event-observer"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "common",
+ "futures",
+ "futures-channel",
+ "futures-util",
+ "mongodb",
+ "serde",
+ "serde_json",
  "tokio",
+ "tokio-stream-ext",
  "tokio-tungstenite",
+ "toml",
 ]
 
 [[package]]
@@ -1985,6 +1997,18 @@ dependencies = [
  "futures-core",
  "pin-project-lite",
  "tokio",
+]
+
+[[package]]
+name = "tokio-stream-ext"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1160613468f2e499deb0bcee505ab97d912c6f0a3433ab8128fa1bf9bc35224f"
+dependencies = [
+ "futures",
+ "pin-project-lite",
+ "tokio",
+ "tokio-stream",
 ]
 
 [[package]]

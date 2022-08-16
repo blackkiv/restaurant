@@ -1,11 +1,14 @@
 use serde::Deserialize;
 
+use common::config::EventObserver;
+
 #[derive(Deserialize, Debug)]
 pub struct Config {
     #[serde(default = "default_ingredients")]
     pub ingredient_source_path: String,
     pub kafka: Kafka,
     pub generation_config: GenerationConfig,
+    pub event_observer: EventObserver,
 }
 
 #[derive(Deserialize, Debug)]

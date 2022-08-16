@@ -1,7 +1,7 @@
 use std::thread;
 use std::time::Duration;
 
-use common::config::load_config;
+use common::config::{EventObserver, load_config};
 use common::KafkaProducer;
 use config::Config;
 use generator::Generator;
@@ -14,8 +14,14 @@ mod ingredients;
 async fn main() {
     let config: &'static Config = load_config();
     let kafka_config = &config.kafka;
-    let mut ingredient_generated_producer =
-        KafkaProducer::create(&kafka_config.host, &kafka_config.ingredient_generated_topic);
+    let EventObserver { addr, service_name } = &config.event_observer;
+    let mut ingredient_generated_producer = KafkaProducer::create(
+        &kafka_config.host,
+        &kafka_config.ingredient_generated_topic,
+        addr,
+        service_name,
+    )
+        .await;
     if let Ok(generator) = Generator::init(config) {
         loop {
             thread::sleep(Duration::from_secs(config.generation_config.interval));

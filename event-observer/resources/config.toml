@@ -1,0 +1,8 @@
+[mongo]
+connection_url = "mongodb://localhost:27017"
+database_name = "event_observer"
+event_collection = "event"
+
+[server]
+addr = "127.0.0.1"
+port = 9991

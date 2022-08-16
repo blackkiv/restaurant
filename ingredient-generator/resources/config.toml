@@ -3,8 +3,12 @@ host = "localhost:29092"
 ingredient_generated_topic = "ingredient_generated"
 
 [generation_config]
-interval = 2
+interval = 10
 
 [generation_config.amount_range]
 start = 1
 end = 10
+
+[event_observer]
+addr = "ws://127.0.0.1:9991/"
+service_name = "ingredient_generator"
