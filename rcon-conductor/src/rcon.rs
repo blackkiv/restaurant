@@ -1,7 +1,6 @@
-use std::error::Error;
 use std::sync::Arc;
 
-use minecraft_client_rs::{Client, Message};
+use minecraft_client_rs::Client;
 use tokio::sync::Mutex;
 
 use crate::config::Rcon;
