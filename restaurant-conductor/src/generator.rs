@@ -7,8 +7,8 @@ use mongodb::bson::oid::ObjectId;
 use tokio::sync::Mutex;
 
 use common::config::EventObserver;
-use common::KafkaProducer;
 use common::model::{Order, OrderStatus};
+use common::KafkaProducer;
 
 use crate::config::Config;
 use crate::MongoCollections;
@@ -25,7 +25,7 @@ pub async fn generate_order(
         addr,
         service_name,
     )
-        .await;
+    .await;
     let order_generator_task = tokio::spawn(async move {
         loop {
             thread::sleep(Duration::from_secs(config.generation_config.interval));

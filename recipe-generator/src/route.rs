@@ -3,10 +3,10 @@ use rocket::response::status::{Created, NotFound};
 use rocket::serde::json::Json;
 use serde::{Deserialize, Serialize};
 
-use common::config::{EventObserver, load_config};
-use common::KafkaProducer;
+use common::config::{load_config, EventObserver};
 use common::model::UserRecipe;
 use common::types::TypedResult;
+use common::KafkaProducer;
 
 use crate::{Config, Generator};
 
@@ -46,14 +46,14 @@ async fn handle_generation_request(username: &str) -> TypedResult<String> {
         addr,
         service_name,
     )
-        .await;
+    .await;
     let mut rcon_recipe_generated_producer = KafkaProducer::create(
         &kafka_config.host,
         &kafka_config.rcon_recipe_generated_topic,
         addr,
         service_name,
     )
-        .await;
+    .await;
     let generator = Generator::init(config)?;
     let recipe = generator.generate_recipe(username).await;
     let user_recipe = UserRecipe {

@@ -1,7 +1,7 @@
 use std::thread;
 use std::time::Duration;
 
-use common::config::{EventObserver, load_config};
+use common::config::{load_config, EventObserver};
 use common::KafkaProducer;
 use config::Config;
 use generator::Generator;
@@ -21,7 +21,7 @@ async fn main() {
         addr,
         service_name,
     )
-        .await;
+    .await;
     if let Ok(generator) = Generator::init(config) {
         loop {
             thread::sleep(Duration::from_secs(config.generation_config.interval));

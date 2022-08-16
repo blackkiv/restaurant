@@ -2,12 +2,12 @@ use std::sync::Arc;
 
 use tokio::sync::Mutex;
 
-use common::KafkaConsumer;
 use common::model::Recipe;
 use common::types::EmptyResult;
+use common::KafkaConsumer;
 
-use crate::Config;
 use crate::db::MongoCollections;
+use crate::Config;
 
 pub async fn listen_events(config: &Config, collection: &'static Arc<Mutex<MongoCollections>>) {
     let kafka_config = &config.kafka;

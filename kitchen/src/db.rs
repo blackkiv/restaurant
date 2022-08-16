@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
 use futures::TryStreamExt;
-use mongodb::{Client, Collection};
 use mongodb::bson::doc;
 use mongodb::options::{ClientOptions, FindOptions, UpdateOptions};
+use mongodb::{Client, Collection};
 
 use common::model::{Ingredient, Order, OrderStatus};
 use common::types::{EmptyResult, TypedResult};
@@ -106,7 +106,7 @@ impl IngredientCollection {
                 },
                 false,
             )
-                .await?;
+            .await?;
         }
 
         Ok(())

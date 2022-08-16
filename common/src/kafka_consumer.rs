@@ -23,8 +23,8 @@ impl KafkaConsumer {
 
 impl KafkaConsumer {
     pub async fn subscribe<Fun>(&mut self, consume_function: Fun) -> EmptyResult
-        where
-            Fun: AsyncFn<Vec<u8>, Output=EmptyResult> + Copy,
+    where
+        Fun: AsyncFn<Vec<u8>, Output = EmptyResult> + Copy,
     {
         loop {
             for msg in self.consumer.poll().unwrap().iter() {

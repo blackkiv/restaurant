@@ -3,12 +3,12 @@ use std::sync::Arc;
 use tokio::sync::Mutex;
 
 use common::config::EventObserver;
-use common::KafkaProducer;
 use common::model::{Ingredient, Order};
 use common::types::EmptyResult;
+use common::KafkaProducer;
 
-use crate::Config;
 use crate::db::{IngredientCollection, OrderCollection};
+use crate::Config;
 
 pub struct Kitchen {
     order_collection: &'static Arc<OrderCollection>,
@@ -30,7 +30,7 @@ impl Kitchen {
             addr,
             service_name,
         )
-            .await;
+        .await;
 
         Box::leak(Box::new(Arc::new(Mutex::new(Kitchen {
             order_collection,

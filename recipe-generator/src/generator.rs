@@ -3,8 +3,8 @@ use sha2::{Digest, Sha256};
 use common::model::{Ingredient, Recipe};
 use common::types::TypedResult;
 
-use crate::{assets, Config};
 use crate::assets::Assets;
+use crate::{assets, Config};
 
 #[derive(Debug)]
 pub struct Generator {
