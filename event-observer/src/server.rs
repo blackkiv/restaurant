@@ -4,14 +4,11 @@ use std::sync::Arc;
 
 use futures_channel::mpsc::{unbounded, UnboundedSender};
 use futures_util::{future, pin_mut, StreamExt, TryStreamExt};
-use futures_util::future::err;
 use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::Mutex;
 use tokio_tungstenite::tungstenite::handshake::server::{ErrorResponse, Request, Response};
 use tokio_tungstenite::tungstenite::http::HeaderValue;
 use tokio_tungstenite::tungstenite::Message;
-
-use common::model::EventBody;
 
 use crate::config::{Config, Server};
 use crate::db::EventCollection;

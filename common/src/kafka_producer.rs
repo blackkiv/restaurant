@@ -1,17 +1,16 @@
 use std::time::Duration;
 
-use chrono::Utc;
 use futures_channel::mpsc::{unbounded, UnboundedReceiver, UnboundedSender};
 use futures_util::StreamExt;
 use kafka::client::RequiredAcks;
 use kafka::producer::{Producer, Record};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use tokio_tungstenite::connect_async;
 use tokio_tungstenite::tungstenite::handshake::client::{generate_key, Request};
 use tokio_tungstenite::tungstenite::http::Uri;
 use tokio_tungstenite::tungstenite::Message;
 
-use crate::model::{Event, EventBody, EventBodyType};
+use crate::model::{EventBody, EventBodyType};
 use crate::types::{EmptyResult, TypedResult};
 
 pub struct KafkaProducer {

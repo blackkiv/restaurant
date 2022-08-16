@@ -8,7 +8,6 @@ use common::model::{Ingredient, Order};
 use common::types::EmptyResult;
 
 use crate::Config;
-use crate::config::Kafka;
 use crate::db::{IngredientCollection, OrderCollection};
 
 pub struct Kitchen {
@@ -30,7 +29,8 @@ impl Kitchen {
             &kafka_config.order_prepared_topic,
             addr,
             service_name,
-        ).await;
+        )
+            .await;
 
         Box::leak(Box::new(Arc::new(Mutex::new(Kitchen {
             order_collection,
