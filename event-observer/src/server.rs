@@ -4,6 +4,7 @@ use std::sync::Arc;
 
 use futures_channel::mpsc::{unbounded, UnboundedSender};
 use futures_util::{future, pin_mut, StreamExt, TryStreamExt};
+use futures_util::future::err;
 use tokio::net::{TcpListener, TcpStream};
 use tokio::sync::Mutex;
 use tokio_tungstenite::tungstenite::handshake::server::{ErrorResponse, Request, Response};
@@ -41,7 +42,7 @@ impl SocketServer {
 
 impl SocketServer {
     pub async fn listen(&self) {
-        println!("Listen to new connections..");
+        println!("listen to new connections..");
         while let Ok((stream, addr)) = self.listener.accept().await {
             tokio::spawn(handle_connection(
                 self.state.clone(),
@@ -75,6 +76,12 @@ async fn handle_connection(
     match &service_name {
         None => {
             println!("new user connection");
+            if let Ok(events) = event_collection.clone().lock().await.find().await {
+                events.iter().for_each(|event| {
+                    let msg = Message::Binary(serde_json::to_vec(event).unwrap());
+                    tx.unbounded_send(msg).unwrap();
+                })
+            }
             state.lock().await.insert(addr, tx);
         }
         Some(name) => {
@@ -87,24 +94,20 @@ async fn handle_connection(
     let service_name_ref = &service_name;
     let state_ref = &state.clone();
     let broadcast_incoming = incoming.try_for_each(|msg| async move {
-        println!("sent: {}", msg.to_text()?);
         if let Some(name) = service_name_ref {
-            println!("{} sent: {}", name.to_str()?, msg.to_text()?);
+            println!("received message from {}", name.to_str()?);
+            if let Ok(event_body) = serde_json::from_slice(msg.clone().into_data().as_slice()) {
+                event_collection
+                    .clone()
+                    .lock()
+                    .await
+                    .save(event_body)
+                    .await
+                    .expect("cannot save event_body");
+            }
             let peers = state_ref.lock().await;
             for recp in peers.iter() {
-                let message = msg.clone();
-                if let Ok(event_body) = serde_json::from_slice(message.into_data().as_slice())
-                    .map_err(|error| error.to_string())
-                {
-                    event_collection
-                        .clone()
-                        .lock()
-                        .await
-                        .save(event_body)
-                        .await
-                        .expect("cannot save event_body");
-                    recp.1.unbounded_send(msg.clone()).unwrap();
-                }
+                recp.1.unbounded_send(msg.clone()).unwrap();
             }
         }
 

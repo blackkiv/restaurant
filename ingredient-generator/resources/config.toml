@@ -3,7 +3,7 @@ host = "localhost:29092"
 ingredient_generated_topic = "ingredient_generated"
 
 [generation_config]
-interval = 10
+interval = 2
 
 [generation_config.amount_range]
 start = 1
