@@ -1,3 +1,5 @@
+use serde_json;
+
 pub use kafka_consumer::KafkaConsumer;
 pub use kafka_producer::KafkaProducer;
 
