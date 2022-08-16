@@ -14,6 +14,7 @@ pub struct Config {
 pub struct Kafka {
     pub host: String,
     pub recipe_generated_topic: String,
+    pub rcon_recipe_generated_topic: String
 }
 
 fn default_assets() -> String {

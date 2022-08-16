@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  mc_server:
+    image: itzg/minecraft-server
+    ports:
+      - "25565:25565"
+    container_name: mc_server
+    environment:
+      - TYPE=FABRIC
+      - EULA=TRUE
+      - VERSION=1.19.2
+    volumes:
+      - ./mc:/data
+    networks:
+      - restaurant_net
+
+networks:
+  restaurant_net:
+    name: restaurant_network

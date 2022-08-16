@@ -1,6 +1,7 @@
 [kafka]
 host = "localhost:29092"
 recipe_generated_topic = "recipe_generated"
+rcon_recipe_generated_topic = "rcon_recipe_generated"
 
 [event_observer]
 addr = "ws://127.0.0.1:9991/"

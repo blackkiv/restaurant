@@ -1462,6 +1462,7 @@ dependencies = [
  "common",
  "futures",
  "minecraft-client-rs",
+ "mongodb",
  "serde",
  "serde_json",
  "tokio",

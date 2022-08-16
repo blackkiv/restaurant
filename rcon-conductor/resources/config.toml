@@ -1,0 +1,14 @@
+[mongo]
+connection_url = "mongodb://localhost:27017"
+database_name = "rcon_conductor"
+user_recipe_collection = "user_recipe"
+
+[kafka]
+host = "localhost:29092"
+consumer_group = "rcon_conductor"
+rcon_recipe_generated_topic = "rcon_recipe_generated"
+order_prepared_topic = "order_prepared"
+
+[rcon]
+addr = "localhost:25575"
+password = "minecraft"
